@@ -50,11 +50,12 @@ export const TaskLayout = ({ data, modifyTask, handleModifyTask, handleNewConten
   const simpleDate = dateString.split('/').slice(0, 2).join('/')
   const isTaskUpdated = useIsTasksUpdatedContext()
 
-  const deleteTask = (e) => {
+  const deleteTask = async (e) => {
+    console.log(e.target.parentNode.dataset.id)
     const id = e.target.dataset.id ?? e.target.parentNode.dataset.id
     const validData = deleteTaskDataValidation({ docId: id })
     if (validData.validate) {
-      useFetch(URL.delete_task, FETCH_OPTIONS.delete_task(id)).then(res => {
+      await useFetch(URL.delete_task, FETCH_OPTIONS.delete_task(id)).then(res => {
         console.log(res)
       })
     }
@@ -160,7 +161,7 @@ export const TaskLayout = ({ data, modifyTask, handleModifyTask, handleNewConten
               bgcolor: theme.status.remove
             }
           }}>
-          <Delete />
+          <Delete data-id={id} />
         </Button>
       </ButtonGroup>
     </Box>

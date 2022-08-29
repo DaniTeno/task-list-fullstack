@@ -51,16 +51,16 @@ export const AddTask = () => {
     setTaskContent({ ...taskContent, content: value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const validData = createTaskDataValidation(taskContent, user)
     if (user && validData.validate) {
-      useFetch(URL, FETCH_OPTIONS(user, taskContent)).then(res => {
+      await useFetch(URL, FETCH_OPTIONS(user, taskContent)).then(res => {
         console.log(res)
         e.target.reset()
-        isTasksUpdated(false)
       })
     }
+    isTasksUpdated(false)
   }
 
   const isDisabled = taskContent.content.length === 0 || !user
