@@ -30,7 +30,7 @@ const FETCH_OPTIONS = {
       docId
     })
   })
-} 
+}
 
 const URL = {
   mark_task_as_done: (docId) => `http://localhost:5000/cobuild-193ee/us-central1/app/api/tasks/${docId}`,
@@ -52,8 +52,8 @@ export const TaskLayout = ({ data, modifyTask, handleModifyTask, handleNewConten
 
   const deleteTask = (e) => {
     const id = e.target.dataset.id ?? e.target.parentNode.dataset.id
-    const validData = deleteTaskDataValidation({docId: id})
-    if(validData.validate){
+    const validData = deleteTaskDataValidation({ docId: id })
+    if (validData.validate) {
       useFetch(URL.delete_task, FETCH_OPTIONS.delete_task(id)).then(res => {
         console.log(res)
       })
@@ -61,15 +61,12 @@ export const TaskLayout = ({ data, modifyTask, handleModifyTask, handleNewConten
     isTaskUpdated(false)
   }
 
-  const markTaskAsDone = (e) => {
+  const markTaskAsDone = async (e) => {
     const id = e.target.dataset.id ?? e.target.parentNode.dataset.id
-    const validData = markTaskAsDoneDataValidation()
-    if(validData.validate){
-      useFetch(URL.mark_task_as_done(id), FETCH_OPTIONS.mark_task_as_done()).then(res => {
-        console.log(res)
-      })
-      isTaskUpdated(false)
-    }
+    await useFetch(URL.mark_task_as_done(id), FETCH_OPTIONS.mark_task_as_done()).then(res => {
+      console.log(res)
+    })
+    isTaskUpdated(false)
   }
 
   return (
@@ -118,7 +115,7 @@ export const TaskLayout = ({ data, modifyTask, handleModifyTask, handleNewConten
             height: "100%"
           }} />
         <Button data-id={id} disabled={doneMark ? true : false} onClick={markTaskAsDone}>
-          <Checkbox data-id={id} checked={doneMark ? true : false} disabled={doneMark ? true : false} sx={ iconSize } />
+          <Checkbox data-id={id} checked={doneMark ? true : false} disabled={doneMark ? true : false} sx={iconSize} />
         </Button>
         <Button
           disabled={
